@@ -4,44 +4,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 )
 
 type Todo struct {
-	UserId    int
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
+	UserId    int    `json:"-"`
+	ID        int    `json:"-"`
+	Title     string `json:"title,omitempty"`
 	Completed bool   `json:"completed"`
 }
 
 func main() {
-	url := "https://jsonplaceholder.typicode.com/todos/2/"
+	todoItem := &Todo{1, 1, "", false}
 
-	respone, err := http.Get(url)
+	todo, err := json.MarshalIndent(todoItem, "", "\t")
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Marshal error:", err)
 	}
 
-	defer respone.Body.Close()
-
-	if respone.StatusCode == http.StatusOK {
-		todoItem := Todo{}
-
-		decoder := json.NewDecoder(respone.Body)
-
-		if err := decoder.Decode(&todoItem); err != nil {
-			log.Fatal("Decode error:", err)
-		}
-
-		//convert to json
-		todo, err := json.Marshal(todoItem)
-
-		if err != nil {
-			log.Fatal("Marshal error:", err)
-		}
-
-		fmt.Printf(string(todo))
-	}
-
+	fmt.Printf(string(todo))
 }
