@@ -24,3 +24,7 @@ Guidelines on how to contribute to the project
 ## License
 
 Information about the project's license and any additional terms
+
+## 03.sql
+
+Trying without Dockerised postgres
